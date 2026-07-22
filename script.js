@@ -4,37 +4,26 @@ async function askGemini() {
 
     const prompt = document.getElementById("prompt").value;
 
-    if (!prompt) return;
-
-    document.getElementById("loading").innerHTML = "Thinking...";
-    document.getElementById("response").innerHTML = "";
+    document.getElementById("loading").innerText = "Thinking...";
+    document.getElementById("response").innerText = "";
 
     try {
 
-        const res = await fetch(
-            API + "?prompt=" + encodeURIComponent(prompt)
-        );
+        const res = await fetch(API + "?prompt=" + encodeURIComponent(prompt));
 
-        console.log("Status:", res.status);
+        const text = await res.text();
 
-        const data = await res.json();
+        document.getElementById("loading").innerText = "";
 
-        console.log(data);
+        document.getElementById("response").innerText =
+            "HTTP: " + res.status + "\n\n" + text;
 
-        document.getElementById("loading").innerHTML = "";
+    } catch (e) {
 
-        document.getElementById("response").innerHTML =
-            data.response || JSON.stringify(data);
+        document.getElementById("loading").innerText = "";
 
-    } catch (err) {
-
-        document.getElementById("loading").innerHTML = "";
-
-        document.getElementById("response").innerHTML =
-            "ERROR: " + err.message;
-
-        console.error(err);
+        document.getElementById("response").innerText =
+            "ERROR:\n" + e;
 
     }
-
 }
