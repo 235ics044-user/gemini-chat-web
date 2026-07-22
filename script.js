@@ -1,28 +1,40 @@
-const API =
-"https://6a60f147003b0479e17b.sfo.appwrite.run/";
+const API = "https://6a60f147003b0479e17b.sfo.appwrite.run/";
 
-async function askGemini(){
+async function askGemini() {
 
-    const prompt =
-        document.getElementById("prompt").value;
+    const prompt = document.getElementById("prompt").value;
 
-    if(!prompt) return;
+    if (!prompt) return;
 
-    document.getElementById("loading").innerHTML =
-    "Thinking...";
+    document.getElementById("loading").innerHTML = "Thinking...";
+    document.getElementById("response").innerHTML = "";
 
-    document.getElementById("response").innerHTML="";
+    try {
 
-    const res = await fetch(
-        API +
-        "?prompt=" +
-        encodeURIComponent(prompt)
-    );
+        const res = await fetch(
+            API + "?prompt=" + encodeURIComponent(prompt)
+        );
 
-    const data = await res.json();
+        console.log("Status:", res.status);
 
-    document.getElementById("loading").innerHTML="";
+        const data = await res.json();
 
-    document.getElementById("response").innerHTML =
-        data.response;
+        console.log(data);
+
+        document.getElementById("loading").innerHTML = "";
+
+        document.getElementById("response").innerHTML =
+            data.response || JSON.stringify(data);
+
+    } catch (err) {
+
+        document.getElementById("loading").innerHTML = "";
+
+        document.getElementById("response").innerHTML =
+            "ERROR: " + err.message;
+
+        console.error(err);
+
+    }
+
 }
