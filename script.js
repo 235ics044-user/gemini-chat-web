@@ -9,7 +9,13 @@ async function askGemini() {
 
     try {
 
-        const res = await fetch(API + "?prompt=" + encodeURIComponent(prompt));
+        const res = await fetch(
+    API + "?prompt=" + encodeURIComponent(prompt),
+    {
+        method: "GET",
+        mode: "cors"
+    }
+);
 
         const text = await res.text();
 
