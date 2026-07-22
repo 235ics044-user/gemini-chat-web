@@ -14,40 +14,24 @@ async function askGemini() {
         const res = await fetch(
             API + "?prompt=" + encodeURIComponent(prompt),
             {
-                method: "GET",
-                mode: "cors"
+                method: "GET"
             }
         );
 
-        console.log("Status:", res.status);
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
 
-        const text = await res.text();
-
-        console.log("Response:", text);
+        const data = await res.json();
 
         document.getElementById("loading").innerText = "";
-
-        try {
-
-            const data = JSON.parse(text);
-
-            document.getElementById("response").innerText =
-                data.response ?? JSON.stringify(data, null, 2);
-
-        } catch {
-
-            document.getElementById("response").innerText = text;
-
-        }
+        document.getElementById("response").innerText = data.response;
 
     } catch (e) {
 
         document.getElementById("loading").innerText = "";
-
         document.getElementById("response").innerText =
-            "ERROR:\n" +
-            e.name + "\n" +
-            e.message;
+            "Error: " + e.message;
 
     }
 }
