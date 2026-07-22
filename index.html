@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Chat</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini AI</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="container">
+<div class="chat-container">
 
-    <h1>🤖 Gemini AI</h1>
+    <div class="header">
+        🤖 Gemini AI
+    </div>
 
-    <textarea
-        id="prompt"
-        placeholder="Ask anything..."
-    ></textarea>
+    <div id="chat" class="chat-box">
 
-    <button onclick="askGemini()">
-        Ask Gemini
-    </button>
+        <div class="ai">
+            👋 Hello! Ask me anything.
+        </div>
 
-    <div id="loading"></div>
+    </div>
 
-    <div id="response"></div>
+    <div class="input-box">
+
+        <textarea
+            id="prompt"
+            placeholder="Message Gemini..."
+        ></textarea>
+
+        <button onclick="askGemini()">
+            ➤
+        </button>
+
+    </div>
 
 </div>
 
