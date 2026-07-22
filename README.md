@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Is project ka objective hai Gemini AI ko secure tareeke se use karna bina API key ko frontend me expose kiye .
+Is project ka objective hai Gemini AI ko secure tareeke se use karna bina API key ko frontend me expose kiye.
 
 Architecture:
 
