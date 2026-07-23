@@ -5,8 +5,6 @@ const promptBox = document.getElementById("prompt");
 const typing = document.getElementById("typing");
 const sendBtn = document.getElementById("sendBtn");
 
-let history = [];
-
 function addMessage(text, type) {
 
     const div = document.createElement("div");
@@ -15,6 +13,7 @@ function addMessage(text, type) {
 
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
+
 }
 
 async function askGemini() {
@@ -25,11 +24,6 @@ async function askGemini() {
 
     addMessage(prompt, "user");
 
-    history.push({
-        role: "user",
-        text: prompt
-    });
-
     promptBox.value = "";
 
     typing.innerText = "Gemini is typing...";
@@ -38,19 +32,13 @@ async function askGemini() {
 
     try {
 
-        const res = await fetch(API, {
+        const res = await fetch(
+            API + "?prompt=" + encodeURIComponent(prompt)
+        );
 
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                history: history
-            })
-
-        });
+        if (!res.ok) {
+            throw new Error("HTTP " + res.status);
+        }
 
         const data = await res.json();
 
@@ -58,13 +46,7 @@ async function askGemini() {
 
         addMessage(data.response, "ai");
 
-        history.push({
-            role: "assistant",
-            text: data.response
-        });
-
-    }
-    catch (e) {
+    } catch (e) {
 
         typing.innerText = "";
 
@@ -78,9 +60,9 @@ async function askGemini() {
 
 sendBtn.addEventListener("click", askGemini);
 
-promptBox.addEventListener("keydown", function(e){
+promptBox.addEventListener("keydown", function (e) {
 
-    if(e.key==="Enter" && !e.shiftKey){
+    if (e.key === "Enter" && !e.shiftKey) {
 
         e.preventDefault();
 
@@ -90,9 +72,7 @@ promptBox.addEventListener("keydown", function(e){
 
 });
 
-document.getElementById("newChat").addEventListener("click", function(){
-
-    history = [];
+document.getElementById("newChat").addEventListener("click", function () {
 
     chat.innerHTML = `
         <div class="message ai">
