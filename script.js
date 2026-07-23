@@ -5,16 +5,15 @@ const promptBox = document.getElementById("prompt");
 const typing = document.getElementById("typing");
 const sendBtn = document.getElementById("sendBtn");
 
+let history = [];
+
 function addMessage(text, type) {
 
     const div = document.createElement("div");
-
     div.className = "message " + type;
-
     div.innerText = text;
 
     chat.appendChild(div);
-
     chat.scrollTop = chat.scrollHeight;
 }
 
@@ -26,6 +25,11 @@ async function askGemini() {
 
     addMessage(prompt, "user");
 
+    history.push({
+        role: "user",
+        text: prompt
+    });
+
     promptBox.value = "";
 
     typing.innerText = "Gemini is typing...";
@@ -34,15 +38,30 @@ async function askGemini() {
 
     try {
 
-        const res = await fetch(
-            API + "?prompt=" + encodeURIComponent(prompt)
-        );
+        const res = await fetch(API, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                history: history
+            })
+
+        });
 
         const data = await res.json();
 
         typing.innerText = "";
 
         addMessage(data.response, "ai");
+
+        history.push({
+            role: "assistant",
+            text: data.response
+        });
 
     }
     catch (e) {
@@ -72,6 +91,8 @@ promptBox.addEventListener("keydown", function(e){
 });
 
 document.getElementById("newChat").addEventListener("click", function(){
+
+    history = [];
 
     chat.innerHTML = `
         <div class="message ai">
