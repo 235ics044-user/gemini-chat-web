@@ -8,10 +8,13 @@ const sendBtn = document.getElementById("sendBtn");
 function addMessage(text, type) {
 
     const div = document.createElement("div");
+
     div.className = "message " + type;
+
     div.innerText = text;
 
     chat.appendChild(div);
+
     chat.scrollTop = chat.scrollHeight;
 
 }
@@ -22,6 +25,10 @@ async function askGemini() {
 
     if (!prompt) return;
 
+    // Purani chat delete
+    chat.innerHTML = "";
+
+    // User message
     addMessage(prompt, "user");
 
     promptBox.value = "";
@@ -44,6 +51,7 @@ async function askGemini() {
 
         typing.innerText = "";
 
+        // Latest AI response
         addMessage(data.response, "ai");
 
     } catch (e) {
@@ -79,5 +87,8 @@ document.getElementById("newChat").addEventListener("click", function () {
             👋 Hello! How can I help you today?
         </div>
     `;
+
+    promptBox.value = "";
+    typing.innerText = "";
 
 });
