@@ -9,12 +9,16 @@ body{
     background:#0f172a;
     color:white;
     height:100vh;
+    overflow:hidden;
 }
 
 .app{
     display:flex;
     flex-direction:column;
     height:100vh;
+    max-width:800px;
+    margin:auto;
+    position:relative;
 }
 
 header{
@@ -25,6 +29,7 @@ header{
     align-items:center;
     padding:0 18px;
     border-bottom:1px solid #283548;
+    flex-shrink:0;
 }
 
 .logo{
@@ -45,6 +50,7 @@ header button{
     flex:1;
     overflow-y:auto;
     padding:20px;
+    padding-bottom:110px;
     display:flex;
     flex-direction:column;
     gap:14px;
@@ -69,16 +75,31 @@ header button{
 }
 
 .typing{
-    padding:0 20px 10px;
+    position:fixed;
+    bottom:90px;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:800px;
+    padding:0 20px;
     color:#94a3b8;
     font-size:14px;
-    min-height:20px;
 }
 
 .bottom{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0;
+
+    width:100%;
+    max-width:800px;
+
     display:flex;
     gap:10px;
+
     padding:15px;
+
     background:#111827;
     border-top:1px solid #283548;
 }
@@ -132,6 +153,10 @@ textarea{
 
 header button{
     padding:8px 14px;
+}
+
+.bottom{
+    padding:12px;
 }
 
 }
